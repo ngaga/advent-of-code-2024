@@ -49,22 +49,28 @@ def calculate_similarity_index(sorted_list_a, sorted_list_b):
     """Calculate similarity index between two sorted lists"""
     # Day 1 part 2
     # We benefit from the fact that the columns are sorted already.
-    # If the values are different, the multiplier will be 0 so no need to add anything.
-    # If the values are the same, we add the value to the result. And it will be the same 
-    # for each further matching value. So if we have 3 times 3 we will correcly add 9.
+    # We keep track of the number of occurences of the current value.
+    # When he have a mismatch we add the value of the previous value to the result
+    # multiplied by the number of occurences. And we reset the occurence count.
     i = 0
     j = 0
     result = 0
+    last_match_value = 0
+    occurence_count = 0
     while i < len(sorted_list_a) and j < len(sorted_list_b):
         if sorted_list_a[i] < sorted_list_b[j]:
             i += 1
+            result += last_match_value * occurence_count
+            occurence_count = 0
         elif sorted_list_a[i] > sorted_list_b[j]:
             j += 1
+            result += sorted_list_b[j] * occurence_count
+            occurence_count = 0
         else: # sorted_list_a[i] == sorted_list_b[j]
-            result += sorted_list_a[i]
+            last_match_value = sorted_list_a[i]
             i += 1
             j += 1
-    
+            occurence_count += 1
     return result
 
 def sortedDistance(list_a, list_b):
