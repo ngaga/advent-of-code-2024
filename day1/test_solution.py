@@ -5,7 +5,7 @@ import os
 # Add the day1 directory to the path so we can import the module
 sys.path.append(os.path.join(os.path.dirname(__file__), 'day1'))
 
-from solution import sortedDistance, sort_lists, calculate_similarity_index
+from solution import sortedDistance, sort_lists, brute_force_calculate_similarity_index
 
 class TestDay1Algorithm:
     """Test cases for the Day 1 sorted distance algorithm"""
@@ -100,7 +100,7 @@ class TestSimilarityIndex:
         # Sort the lists first
         sorted_a, sorted_b = sort_lists(a, b)
         
-        result = calculate_similarity_index(sorted_a, sorted_b)
+        result = brute_force_calculate_similarity_index(sorted_a, sorted_b)
         expected = 5  # 2 + 3 = 5 (common values)
         
         assert result == expected, f"Expected {expected}, got {result}"
@@ -113,7 +113,7 @@ class TestSimilarityIndex:
         # Sort the lists first
         sorted_a, sorted_b = sort_lists(a, b)
         
-        result = calculate_similarity_index(sorted_a, sorted_b)
+        result = brute_force_calculate_similarity_index(sorted_a, sorted_b)
         expected = 0  # No common values
         
         assert result == expected, f"Expected {expected}, got {result}"
@@ -126,7 +126,7 @@ class TestSimilarityIndex:
         # Sort the lists first
         sorted_a, sorted_b = sort_lists(a, b)
         
-        result = calculate_similarity_index(sorted_a, sorted_b)
+        result = brute_force_calculate_similarity_index(sorted_a, sorted_b)
         expected = 6  # 1 + 2 + 3 = 6 (all values are common)
         
         assert result == expected, f"Expected {expected}, got {result}"
@@ -139,7 +139,7 @@ class TestSimilarityIndex:
         # Sort the lists first
         sorted_a, sorted_b = sort_lists(a, b)
         
-        result = calculate_similarity_index(sorted_a, sorted_b)
+        result = brute_force_calculate_similarity_index(sorted_a, sorted_b)
         expected = 10  # 1*1 + 1*1 + 2*2 + 2*2 = 1 + 1 + 4 + 4 = 10
         
         assert result == expected, f"Expected {expected}, got {result}"
@@ -152,7 +152,7 @@ class TestSimilarityIndex:
         # Sort the lists first
         sorted_a, sorted_b = sort_lists(a, b)
         
-        result = calculate_similarity_index(sorted_a, sorted_b)
+        result = brute_force_calculate_similarity_index(sorted_a, sorted_b)
         expected = 0  # No common values in empty lists
         
         assert result == expected, f"Expected {expected}, got {result}"
@@ -165,7 +165,7 @@ class TestSimilarityIndex:
         # Sort the lists first
         sorted_a, sorted_b = sort_lists(a, b)
         
-        result = calculate_similarity_index(sorted_a, sorted_b)
+        result = brute_force_calculate_similarity_index(sorted_a, sorted_b)
         expected = 5  # 2 + 3 = 5 (common values)
         
         assert result == expected, f"Expected {expected}, got {result}"
@@ -178,7 +178,7 @@ class TestSimilarityIndex:
         # Sort the lists first
         sorted_a, sorted_b = sort_lists(a, b)
         
-        result = calculate_similarity_index(sorted_a, sorted_b)
+        result = brute_force_calculate_similarity_index(sorted_a, sorted_b)
         expected = 31  # 9 + 4 + 0 + 0 + 9 + 9 = 31
         
         assert result == expected, f"Expected {expected}, got {result}"

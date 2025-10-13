@@ -45,6 +45,18 @@ def sort_lists(list_a, list_b):
     """Sort two lists and return the sorted versions"""
     return sorted(list_a), sorted(list_b)
 
+# count how many times each number of the leftList is present in the rightList and add this number 
+# multiplied by the number of the leftList to the result.
+# complexity is O(n^2) where n is the length of the longest list -> we can do better probably.
+def brute_force_calculate_similarity_index(leftList, rightList):
+    result = 0
+    for l in leftList:
+        count = rightList.count(l)
+        result += l * count
+    return result
+
+
+# TODO: WIP not working yet
 def calculate_similarity_index(sorted_list_a, sorted_list_b):
     """Calculate similarity index between two sorted lists"""
     # Day 1 part 2
@@ -115,7 +127,9 @@ def main():
         print(f"Sorted distance: {sorted_distance}")
         
         # Calculate similarity index
-        similarity_index = calculate_similarity_index(col_a_sorted, col_b_sorted)
+        # TODO: Calculate similarity index using the calculate_similarity_index function, it should be faster.
+        # Note: here we do not need a sorted list for now with the brute force approach.
+        similarity_index = brute_force_calculate_similarity_index(col_a_sorted.tolist(), col_b_sorted.tolist())
         print(f"Similarity index: {similarity_index}")
         
         print(f"\nResults:")
