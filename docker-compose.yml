@@ -1,0 +1,14 @@
+services:
+  advent-of-code:
+    build: .
+    container_name: advent-of-code-2024
+    env_file:
+      - .env
+    volumes:
+      # Mount all day directories to allow easy access to scripts
+      - ./day1:/app/day1
+      - ./day2:/app/day2
+      - ./day3:/app/day3
+      - ./day4:/app/day4
+    # Override the default command to run day1 solution
+    command: python day1/solution.py
