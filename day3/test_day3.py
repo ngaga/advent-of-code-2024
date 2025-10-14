@@ -33,19 +33,18 @@ class TestDay3Solution:
         # Sample corrupted memory from the problem
         sample_memory = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"
         
-        # Expected valid instructions: mul(2,4), mul(11,8), mul(8,5)
-        # Note: mul(5,5) is invalid because it's inside do_not_mul
+        # Expected valid instructions: (2,4), (5,5), (11,8), (8,5)
+        # Note: According to the problem statement, there are 4 valid instructions
         # mul[3,7] is invalid because it uses brackets instead of parentheses
         # mul(32,64] is invalid because it has a bracket instead of parenthesis
         
-        # TODO: This test will fail until the function is implemented
-        # valid_instructions = find_valid_mul_instructions(sample_memory)
-        # expected_instructions = ["mul(2,4)", "mul(11,8)", "mul(8,5)"]
-        # assert valid_instructions == expected_instructions, f"Expected {expected_instructions}, got {valid_instructions}"
+        valid_instructions = find_valid_mul_instructions(sample_memory)
+        expected_instructions = [(2,4), (5,5), (11,8), (8,5)]
+        assert valid_instructions == expected_instructions, f"Expected {expected_instructions}, got {valid_instructions}"
         
-        print("✓ Find valid mul instructions test prepared")
-        print("  Expected valid instructions: mul(2,4), mul(11,8), mul(8,5)")
-        print("  Invalid instructions: mul[3,7], do_not_mul(5,5), mul(32,64]")
+        print("✓ Find valid mul instructions test passed")
+        print(f"  Found {len(valid_instructions)} valid instructions: {valid_instructions}")
+        print("  Invalid instructions correctly ignored: mul[3,7], do_not_mul(5,5), mul(32,64]")
     
     def test_calculate_multiplication_sum(self):
         """Test calculate_multiplication_sum function with sample data"""
@@ -54,26 +53,29 @@ class TestDay3Solution:
         
         # Expected calculation:
         # mul(2,4) = 2 * 4 = 8
+        # mul(5,5) = 5 * 5 = 25
         # mul(11,8) = 11 * 8 = 88
         # mul(8,5) = 8 * 5 = 40
-        # Total = 8 + 88 + 40 = 136
+        # Total = 8 + 25 + 88 + 40 = 161
         
-        # TODO: This test will fail until the function is implemented
-        # total_sum = calculate_multiplication_sum(sample_memory)
-        # expected_sum = 136
-        # assert total_sum == expected_sum, f"Expected {expected_sum}, got {total_sum}"
+        valid_instructions = find_valid_mul_instructions(sample_memory)
+        total_sum = calculate_multiplication_sum(valid_instructions)
+        expected_sum = 161
+        assert total_sum == expected_sum, f"Expected {expected_sum}, got {total_sum}"
         
-        print("✓ Calculate multiplication sum test prepared")
-        print("  Expected sum: 8 + 88 + 40 = 136")
+        print("✓ Calculate multiplication sum test passed")
+        print(f"  Found instructions: {valid_instructions}")
+        print(f"  Calculations: 2*4=8, 5*5=25, 11*8=88, 8*5=40")
+        print(f"  Total sum: {total_sum}")
     
     def test_edge_cases(self):
         """Test edge cases for mul instruction parsing"""
         test_cases = [
             # (memory, expected_valid_instructions, description)
-            ("mul(1,2)", ["mul(1,2)"], "Simple valid instruction"),
-            ("mul(123,456)", ["mul(123,456)"], "Valid instruction with 3-digit numbers"),
-            ("mul(1,2)mul(3,4)", ["mul(1,2)", "mul(3,4)"], "Two consecutive valid instructions"),
-            ("mul(1,2)invalidmul(3,4)", ["mul(1,2)", "mul(3,4)"], "Valid instructions with invalid text in between"),
+            ("mul(1,2)", [(1,2)], "Simple valid instruction"),
+            ("mul(123,456)", [(123,456)], "Valid instruction with 3-digit numbers"),
+            ("mul(1,2)mul(3,4)", [(1,2), (3,4)], "Two consecutive valid instructions"),
+            ("mul(1,2)invalidmul(3,4)", [(1,2), (3,4)], "Valid instructions with invalid text in between"),
             ("mul[1,2]", [], "Invalid brackets instead of parentheses"),
             ("mul(1,2]", [], "Invalid closing bracket"),
             ("mul(1,2,3)", [], "Too many arguments"),
@@ -90,11 +92,11 @@ class TestDay3Solution:
             print(f"  Testing: {description}")
             print(f"    Memory: '{memory}'")
             print(f"    Expected: {expected}")
-            # TODO: Uncomment when function is implemented
-            # result = find_valid_mul_instructions(memory)
-            # assert result == expected, f"{description}: Expected {expected}, got {result}"
+            result = find_valid_mul_instructions(memory)
+            assert result == expected, f"{description}: Expected {expected}, got {result}"
+            print(f"    ✓ Passed")
         
-        print("✓ Edge cases test prepared")
+        print("✓ Edge cases test passed")
     
     def test_calculation_edge_cases(self):
         """Test calculation with edge cases"""
@@ -113,11 +115,12 @@ class TestDay3Solution:
             print(f"  Testing: {description}")
             print(f"    Memory: '{memory}'")
             print(f"    Expected sum: {expected}")
-            # TODO: Uncomment when function is implemented
-            # result = calculate_multiplication_sum(memory)
-            # assert result == expected, f"{description}: Expected {expected}, got {result}"
+            instructions = find_valid_mul_instructions(memory)
+            result = calculate_multiplication_sum(instructions)
+            assert result == expected, f"{description}: Expected {expected}, got {result}"
+            print(f"    ✓ Passed (instructions: {instructions})")
         
-        print("✓ Calculation edge cases test prepared")
+        print("✓ Calculation edge cases test passed")
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
