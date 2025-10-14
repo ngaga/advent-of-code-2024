@@ -36,16 +36,6 @@ def get_advent_of_code_data():
         print(f"Error fetching data: {response.status_code}")
         return None
 
-def load_data(filename):
-    """Load data from file and return list of reports (kept for backward compatibility)"""
-    with open(filename, 'r') as file:
-        reports = []
-        for line in file:
-            report = [int(x) for x in line.strip().split()]
-            reports.append(report)
-        return reports
-
-
 def is_safe_report(report):
     """Check if a report is safe according to the rules:
     - All levels are either increasing or decreasing
@@ -69,6 +59,28 @@ def is_safe_report(report):
     
     return True
 
+def is_safe_by_one_report(report):
+    """Check if a report is safe according to the rules with Problem Dampener:
+    - Try removing each element and see if any resulting report is safe
+    - If the original report is already safe, return True
+    """
+    # Single value or empty report is considered safe
+    if len(report) < 2:
+        return True
+    
+    # Check if the original report is already safe
+    if is_safe_report(report):
+        return True
+    
+    # Try removing each element and check if the resulting report is safe
+    for i in range(len(report)):
+        # Create a new report without the element at index i
+        modified_report = report[:i] + report[i+1:]
+        if is_safe_report(modified_report):
+            return True
+    
+    return False
+
 def count_safe_reports(reports):
     # A report is safe if:
     # 1. All levels are either increasing or decreasing
@@ -76,7 +88,13 @@ def count_safe_reports(reports):
     safe_count = 0
     for report in reports:
         if is_safe_report(report):
-            print(f"Safe report: {report}")
+            safe_count += 1
+    return safe_count
+
+def count_safe_reports_by_one_report(reports):
+    safe_count = 0
+    for report in reports:
+        if is_safe_by_one_report(report):
             safe_count += 1
     return safe_count
 
@@ -96,6 +114,9 @@ def main():
     # Count safe reports
     safe_count = count_safe_reports(reports)
     print(f"Number of safe reports: {safe_count} out of {len(reports)}")
+
+    safe_count_by_one_report = count_safe_reports_by_one_report(reports)
+    print(f"Number of safe reports by one report: {safe_count_by_one_report} out of {len(reports)}")
 
 if __name__ == "__main__":
     main()

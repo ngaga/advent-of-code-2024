@@ -10,7 +10,7 @@ import os
 # Add the day2 directory to the path so we can import the module
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
-from solution import get_advent_of_code_data, count_safe_reports, is_safe_report
+from solution import get_advent_of_code_data, count_safe_reports, is_safe_report, is_safe_by_one_report, count_safe_reports_by_one_report
 
 class TestDay2Solution:
     """Test cases for Day 2 solution"""
@@ -67,10 +67,63 @@ class TestDay2Solution:
         print(f"  Safe reports: {safe_count}")
         print(f"  Unsafe reports: {len(sample_data) - safe_count}")
     
-    def test_placeholder(self):
-        """Placeholder test for Day 2"""
-        # This test will always pass until Day 2 is implemented
-        assert True, "Day 2 not implemented yet"
+    def test_problem_dampener_individual_reports(self):
+        """Test individual reports with Problem Dampener (Part Two)"""
+        # Test cases from the problem description
+        test_cases = [
+            # (report, expected_safe_with_dampener, description)
+            ([7, 6, 4, 2, 1], True, "Safe without removing any level"),
+            ([1, 2, 7, 8, 9], False, "Unsafe regardless of which level is removed"),
+            ([9, 7, 6, 2, 1], False, "Unsafe regardless of which level is removed"),
+            ([1, 3, 2, 4, 5], True, "Safe by removing the second level, 3"),
+            ([8, 6, 4, 4, 1], True, "Safe by removing the third level, 4"),
+            ([1, 3, 6, 7, 9], True, "Safe without removing any level")
+        ]
+        
+        for report, expected, description in test_cases:
+            result = is_safe_by_one_report(report)
+            assert result == expected, f"Report {report}: {description}. Expected {expected}, got {result}"
+            print(f"✓ {description}: {report} -> {result}")
+    
+    def test_problem_dampener_count(self):
+        """Test count_safe_reports_by_one_report with sample data"""
+        # Sample data from the problem description
+        sample_data = [
+            [7, 6, 4, 2, 1],  # Safe without removing any level
+            [1, 2, 7, 8, 9],  # Unsafe regardless of which level is removed
+            [9, 7, 6, 2, 1],  # Unsafe regardless of which level is removed
+            [1, 3, 2, 4, 5],  # Safe by removing the second level, 3
+            [8, 6, 4, 4, 1],  # Safe by removing the third level, 4
+            [1, 3, 6, 7, 9]   # Safe without removing any level
+        ]
+        
+        # Test count_safe_reports_by_one_report function
+        safe_count = count_safe_reports_by_one_report(sample_data)
+        expected_safe = 4  # 4 reports are actually safe with Problem Dampener
+        
+        assert safe_count == expected_safe, f"Expected {expected_safe} safe reports with Problem Dampener, got {safe_count}"
+        
+        print("✓ Problem Dampener count test passed")
+        print(f"  Total reports: {len(sample_data)}")
+        print(f"  Safe reports with Problem Dampener: {safe_count}")
+        print(f"  Unsafe reports even with Problem Dampener: {len(sample_data) - safe_count}")
+    
+    def test_problem_dampener_edge_cases(self):
+        """Test edge cases for Problem Dampener"""
+        # Test with very short reports
+        assert is_safe_by_one_report([1]), "Single value should be safe"
+        assert is_safe_by_one_report([1, 2]), "Two values should be safe"
+        assert is_safe_by_one_report([2, 1]), "Two values should be safe"
+        
+        # Test with reports that need exactly one removal
+        assert is_safe_by_one_report([1, 5, 2, 3]), "Should be safe by removing 5"
+        assert is_safe_by_one_report([1, 2, 5, 3, 4]), "Should be safe by removing 5"
+        
+        # Test with reports that are still unsafe even with one removal
+        assert not is_safe_by_one_report([1, 5, 2, 6]), "Should be unsafe even with one removal"
+        assert not is_safe_by_one_report([1, 2, 3, 1, 2, 3]), "Should be unsafe even with one removal"
+        
+        print("✓ Problem Dampener edge cases test passed")
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
