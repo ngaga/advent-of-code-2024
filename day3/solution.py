@@ -32,7 +32,12 @@ def get_advent_of_code_data():
 
 
 def read_string(corrupted_memory, string_to_read, current_index):
-    return corrupted_memory[current_index:current_index+len(string_to_read)].startswith(string_to_read)
+    # Check if we have enough characters and if the substring matches
+    if current_index + len(string_to_read) > len(corrupted_memory):
+        return (False, current_index + 1)
+    if corrupted_memory[current_index:current_index+len(string_to_read)] == string_to_read:
+        return (True, current_index + len(string_to_read))
+    return (False, current_index + 1)
 
 # Reads a int number which is up to 3 digits long.
 # returns (number or None, the next index to start searching for next pattern)
@@ -56,10 +61,10 @@ def read_number(corrupted_memory, current_index):
     
     if number_str:
         number = int(number_str)
-        if 1 <= number <= 999:  # Numbers must be 1-3 digits
+        if 0 <= number <= 999:  # Numbers must be 0-3 digits
             return (number, i + len(number_str))
     
-    return (None, i + 1)
+    return (None, i + 4)
 
 def find_valid_mul_instructions(corrupted_memory):
     """Find all valid mul instructions in the corrupted memory.
@@ -73,67 +78,52 @@ def find_valid_mul_instructions(corrupted_memory):
     valid_instructions = []
     i = 0
     while i < len(corrupted_memory):
-        if read_string(corrupted_memory, "mul(", i):
-            # Move past "mul(" (4 characters)
-            i += 4
+        found, i = read_string(corrupted_memory, "mul(", i)
+        if found:
             first_number_result, i = read_number(corrupted_memory, i)
             if first_number_result is not None:
-                # Look for comma
-                if i < len(corrupted_memory) and corrupted_memory[i] == ',':
-                    i += 1  # Move past comma
+                found_comma, i = read_string(corrupted_memory, ",", i)
+                if found_comma:
                     second_number_result, i = read_number(corrupted_memory, i)
                     if second_number_result is not None:
-                        # Look for closing parenthesis
-                        if i < len(corrupted_memory) and corrupted_memory[i] == ')':
+                        found_parenthesis, i = read_string(corrupted_memory, ")", i)
+                        if found_parenthesis:
                             valid_instructions.append((first_number_result, second_number_result))
-                            i += 1  # Move past closing parenthesis
-                        else:
-                            i += 1  # Move forward if no closing parenthesis
-                    else:
-                        i += 1  # Move forward if second number not found
-                else:
-                    i += 1  # Move forward if no comma found
-            else:
-                i += 1  # Move forward if first number not found
-        else:
-            i += 1  # Move forward if "mul(" not found
     return valid_instructions
 
 # pass a list of pairs of numbers
 def calculate_multiplication_sum(instructions):
     return sum(instruction[0] * instruction[1] for instruction in instructions)
 
-def find_do_dont_instructions(corrupted_memory):
-    """Find all do() and dont() instructions in the corrupted memory.
-    
-    Returns a list of (position, instruction_type) where instruction_type is 'do' or 'dont'
-    """
-    # TODO: Implement the algorithm to find do() and dont() instructions
-    # This is where you'll implement the parsing logic for part 2
-    pass
+# Returns the string curated from what is in between a "don't()" and a "do()" keywords
+# We are in a "do()" state at the beginning.
+# Add to the current character to the result string while we are in a do state
+def extract_do_instructions(corrupted_memory):
+    result = ""
+    i = 0
+    do_state = True
+    while i < len(corrupted_memory):
+        if do_state:
+            # look for "don't()" in the input string
+            found, new_i = read_string(corrupted_memory, "don't()", i)
+            if found:
+                do_state = False
+                i = new_i
+            else:
+                # Add current character to result (before read_string advanced)
+                if i < len(corrupted_memory):
+                    result += corrupted_memory[i]
+                i = new_i
+        else:
+            # look for "do()" in the input string
+            found, i = read_string(corrupted_memory, "do()", i)
+            if found:
+                do_state = True
+            else:
+                # Do not happen anything because we are in a "don't()" state
+                pass
+    return result
 
-def find_valid_mul_instructions_with_state(corrupted_memory):
-    """Find all valid mul instructions considering do() and dont() state.
-    
-    Valid mul instructions must:
-    - Start with 'mul('
-    - Have two numbers separated by comma
-    - End with ')'
-    - Numbers must be 1-3 digits
-    - Only enabled mul instructions are considered (based on do()/dont() state)
-    """
-    # TODO: Implement the algorithm to find valid mul instructions with state management
-    # This is where you'll implement the parsing logic for part 2
-    pass
-
-def calculate_multiplication_sum_with_state(corrupted_memory):
-    """Calculate the sum of all valid mul instruction results considering do()/dont() state.
-    
-    Returns the sum of all multiplication results from enabled mul instructions.
-    """
-    # TODO: Implement the calculation logic for part 2
-    # This is where you'll implement the calculation with state management
-    pass
 
 def main():
     print("Advent of Code 2024 - Day 3 Solution")
@@ -160,9 +150,10 @@ def main():
     print("Part 2 - With do() and dont() state management")
     print("=" * 40)
     
-    # TODO: Implement part 2 calculation
-    # total_sum_part2 = calculate_multiplication_sum_with_state(corrupted_memory)
-    # print(f"Part 2 - Sum of enabled mul instruction results: {total_sum_part2}")
+    do_instructions = extract_do_instructions(corrupted_memory)
+    print(f"Part 2 - Do instructions: {do_instructions}")
+    total_sum_part2 = calculate_multiplication_sum(find_valid_mul_instructions(do_instructions))
+    print(f"Part 2 - Sum of all valid mul instruction results: {total_sum_part2}")
 
 if __name__ == "__main__":
     main()
