@@ -90,12 +90,73 @@ def count_xmas_in_grid(grid):
     return len(occurrences)
 
 def find_x_mas_patterns(grid):
-    """Find all X-MAS patterns in the grid"""
-    pass
+    """Find all X-MAS patterns in the grid using convolution"""
+    # Handle empty grid
+    if not grid or not grid[0]:
+        return []
+    
+    # Convert grid to numpy array - ensure all rows have same length
+    max_len = max(len(row) for row in grid)
+    padded_grid = [row.ljust(max_len) for row in grid]
+    grid_array = np.array([list(row) for row in padded_grid])
+    rows, cols = grid_array.shape
+    
+    # Define all possible X-MAS convolution kernels
+    # Each kernel is a 3x3 pattern with the center being 'A'
+    # Only X-shaped patterns (not +-shaped)
+    kernels = [
+        # Pattern 1: 2M en haut, 2S en bas
+        np.array([['M', '.', 'M'],
+                  ['.', 'A', '.'],
+                  ['S', '.', 'S']]),
+        
+        # Pattern 2: 2M en bas, 2S en haut
+        np.array([['S', '.', 'S'],
+                  ['.', 'A', '.'],
+                  ['M', '.', 'M']]),
+        
+        # Pattern 3: 2M à gauche, 2S à droite
+        np.array([['M', '.', 'S'],
+                  ['.', 'A', '.'],
+                  ['M', '.', 'S']]),
+        
+        # Pattern 4: 2M à droite, 2S à gauche
+        np.array([['S', '.', 'M'],
+                  ['.', 'A', '.'],
+                  ['S', '.', 'M']]),
+    ]
+    
+    occurrences = []
+    
+    # Check each position in the grid (except edges)
+    for row in range(1, rows - 1):
+        for col in range(1, cols - 1):
+            # Extract 3x3 subgrid centered at (row, col)
+            subgrid = grid_array[row-1:row+2, col-1:col+2]
+            
+            # Check against each kernel
+            for kernel in kernels:
+                # Check if subgrid matches kernel
+                # We need to handle the case where kernel has '.' (any character)
+                match = True
+                for i in range(3):
+                    for j in range(3):
+                        if kernel[i, j] != '.' and subgrid[i, j] != kernel[i, j]:
+                            match = False
+                            break
+                    if not match:
+                        break
+                
+                if match:
+                    occurrences.append((row, col, kernel))
+                    break  # Found a match, no need to check other kernels
+    
+    return occurrences
 
 def count_x_mas_in_grid(grid):
     """Count total number of X-MAS patterns in the grid"""
-    pass
+    occurrences = find_x_mas_patterns(grid)
+    return len(occurrences)
 
 def main():
     print("Advent of Code 2024 - Day 4 Solution")
@@ -109,6 +170,7 @@ def main():
         return  
     
     print(f"Number of XMAS occurrences: {count_xmas_in_grid(grid)}")
+    print(f"Number of X-MAS patterns: {count_x_mas_in_grid(grid)}")
 
 if __name__ == "__main__":
     main()
