@@ -103,6 +103,38 @@ def find_valid_mul_instructions(corrupted_memory):
 def calculate_multiplication_sum(instructions):
     return sum(instruction[0] * instruction[1] for instruction in instructions)
 
+def find_do_dont_instructions(corrupted_memory):
+    """Find all do() and dont() instructions in the corrupted memory.
+    
+    Returns a list of (position, instruction_type) where instruction_type is 'do' or 'dont'
+    """
+    # TODO: Implement the algorithm to find do() and dont() instructions
+    # This is where you'll implement the parsing logic for part 2
+    pass
+
+def find_valid_mul_instructions_with_state(corrupted_memory):
+    """Find all valid mul instructions considering do() and dont() state.
+    
+    Valid mul instructions must:
+    - Start with 'mul('
+    - Have two numbers separated by comma
+    - End with ')'
+    - Numbers must be 1-3 digits
+    - Only enabled mul instructions are considered (based on do()/dont() state)
+    """
+    # TODO: Implement the algorithm to find valid mul instructions with state management
+    # This is where you'll implement the parsing logic for part 2
+    pass
+
+def calculate_multiplication_sum_with_state(corrupted_memory):
+    """Calculate the sum of all valid mul instruction results considering do()/dont() state.
+    
+    Returns the sum of all multiplication results from enabled mul instructions.
+    """
+    # TODO: Implement the calculation logic for part 2
+    # This is where you'll implement the calculation with state management
+    pass
+
 def main():
     print("Advent of Code 2024 - Day 3 Solution")
     print("=" * 40)
@@ -116,12 +148,21 @@ def main():
     
     print(f"Loaded corrupted memory of length {len(corrupted_memory)}")
     
-    # Calculate the sum of all valid mul instructions
+    # Part 1: Calculate the sum of all valid mul instructions
     valid_instructions = find_valid_mul_instructions(corrupted_memory)
-    print(f"Found {len(valid_instructions)} valid mul instructions")
+    print(f"Part 1 - Found {len(valid_instructions)} valid mul instructions")
     print(f"Valid instructions: {valid_instructions}")
     total_sum = calculate_multiplication_sum(valid_instructions)
-    print(f"Sum of all valid mul instruction results: {total_sum}")
+    print(f"Part 1 - Sum of all valid mul instruction results: {total_sum}")
+    
+    # Part 2: Calculate the sum considering do() and dont() state
+    print("\n" + "=" * 40)
+    print("Part 2 - With do() and dont() state management")
+    print("=" * 40)
+    
+    # TODO: Implement part 2 calculation
+    # total_sum_part2 = calculate_multiplication_sum_with_state(corrupted_memory)
+    # print(f"Part 2 - Sum of enabled mul instruction results: {total_sum_part2}")
 
 if __name__ == "__main__":
     main()

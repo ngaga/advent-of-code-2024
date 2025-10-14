@@ -10,7 +10,7 @@ import os
 # Add the day3 directory to the path so we can import the module
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
-from solution import get_advent_of_code_data, find_valid_mul_instructions, calculate_multiplication_sum
+from solution import get_advent_of_code_data, find_valid_mul_instructions, calculate_multiplication_sum, find_do_dont_instructions, find_valid_mul_instructions_with_state, calculate_multiplication_sum_with_state
 
 class TestDay3Solution:
     """Test cases for Day 3 solution"""
@@ -121,6 +121,121 @@ class TestDay3Solution:
             print(f"    ✓ Passed (instructions: {instructions})")
         
         print("✓ Calculation edge cases test passed")
+    
+    def test_part2_sample_data(self):
+        """Test with sample data from Part 2 problem description"""
+        # Sample corrupted memory from Part 2
+        sample_memory = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+        
+        # Verify the sample data structure
+        assert len(sample_memory) > 0, "Sample memory should not be empty"
+        assert isinstance(sample_memory, str), "Sample memory should be a string"
+        
+        print("✓ Part 2 sample data test passed")
+        print(f"  Sample memory length: {len(sample_memory)}")
+        print(f"  Sample memory: {sample_memory}")
+    
+    def test_find_do_dont_instructions(self):
+        """Test find_do_dont_instructions function with sample data"""
+        # Sample corrupted memory from Part 2
+        sample_memory = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+        
+        # Expected do/dont instructions: don't() at position, undo() at position
+        # Note: undo() should be treated as do() instruction
+        
+        # TODO: This test will fail until the function is implemented
+        # do_dont_instructions = find_do_dont_instructions(sample_memory)
+        # expected_instructions = [("dont", position1), ("do", position2)]
+        # assert do_dont_instructions == expected_instructions, f"Expected {expected_instructions}, got {do_dont_instructions}"
+        
+        print("✓ Find do/dont instructions test prepared")
+        print("  Expected instructions: don't() and undo() (treated as do())")
+    
+    def test_find_valid_mul_instructions_with_state(self):
+        """Test find_valid_mul_instructions_with_state function with sample data"""
+        # Sample corrupted memory from Part 2
+        sample_memory = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+        
+        # Expected enabled instructions: (2,4), (8,5)
+        # mul(5,5) is disabled by don't()
+        # mul(11,8) is disabled by don't() but re-enabled by undo() (do())
+        # mul(8,5) is enabled because of undo() (do())
+        
+        # TODO: This test will fail until the function is implemented
+        # enabled_instructions = find_valid_mul_instructions_with_state(sample_memory)
+        # expected_instructions = [(2,4), (8,5)]
+        # assert enabled_instructions == expected_instructions, f"Expected {expected_instructions}, got {enabled_instructions}"
+        
+        print("✓ Find valid mul instructions with state test prepared")
+        print("  Expected enabled instructions: (2,4), (8,5)")
+        print("  Disabled instructions: mul(5,5), mul(11,8)")
+    
+    def test_calculate_multiplication_sum_with_state(self):
+        """Test calculate_multiplication_sum_with_state function with sample data"""
+        # Sample corrupted memory from Part 2
+        sample_memory = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+        
+        # Expected calculation:
+        # mul(2,4) = 2 * 4 = 8 (enabled)
+        # mul(5,5) = 5 * 5 = 25 (disabled by don't())
+        # mul(11,8) = 11 * 8 = 88 (disabled by don't(), re-enabled by undo() but too late)
+        # mul(8,5) = 8 * 5 = 40 (enabled by undo())
+        # Total = 8 + 40 = 48
+        
+        # TODO: This test will fail until the function is implemented
+        # total_sum = calculate_multiplication_sum_with_state(sample_memory)
+        # expected_sum = 48
+        # assert total_sum == expected_sum, f"Expected {expected_sum}, got {total_sum}"
+        
+        print("✓ Calculate multiplication sum with state test prepared")
+        print("  Expected sum: 2*4 + 8*5 = 8 + 40 = 48")
+    
+    def test_part2_edge_cases(self):
+        """Test edge cases for Part 2 do()/dont() parsing"""
+        test_cases = [
+            # (memory, expected_do_dont_instructions, description)
+            ("do()", [("do", 0)], "Simple do() instruction"),
+            ("dont()", [("dont", 0)], "Simple dont() instruction"),
+            ("do()dont()", [("do", 0), ("dont", 3)], "Two consecutive instructions"),
+            ("do()invalid()dont()", [("do", 0), ("dont", 12)], "Instructions with invalid text in between"),
+            ("undo()", [("do", 0)], "undo() should be treated as do()"),
+            ("dont()do()", [("dont", 0), ("do", 6)], "dont() followed by do()"),
+            ("", [], "Empty memory"),
+            ("nomulhere", [], "No do/dont instructions"),
+        ]
+        
+        for memory, expected, description in test_cases:
+            print(f"  Testing: {description}")
+            print(f"    Memory: '{memory}'")
+            print(f"    Expected: {expected}")
+            # TODO: Uncomment when function is implemented
+            # result = find_do_dont_instructions(memory)
+            # assert result == expected, f"{description}: Expected {expected}, got {result}"
+        
+        print("✓ Part 2 edge cases test prepared")
+    
+    def test_part2_state_management(self):
+        """Test state management for Part 2"""
+        test_cases = [
+            # (memory, expected_enabled_instructions, description)
+            ("mul(1,2)", [(1,2)], "Single mul instruction (enabled by default)"),
+            ("dont()mul(1,2)", [], "mul disabled by dont()"),
+            ("do()mul(1,2)", [(1,2)], "mul enabled by do()"),
+            ("dont()do()mul(1,2)", [(1,2)], "mul re-enabled by do() after dont()"),
+            ("do()dont()mul(1,2)", [], "mul disabled by dont() after do()"),
+            ("mul(1,2)dont()mul(3,4)", [(1,2)], "First mul enabled, second disabled"),
+            ("mul(1,2)do()mul(3,4)", [(1,2), (3,4)], "Both mul enabled"),
+        ]
+        
+        for memory, expected, description in test_cases:
+            print(f"  Testing: {description}")
+            print(f"    Memory: '{memory}'")
+            print(f"    Expected enabled: {expected}")
+            # TODO: Uncomment when function is implemented
+            # result = find_valid_mul_instructions_with_state(memory)
+            # assert result == expected, f"{description}: Expected {expected}, got {result}"
+        
+        print("✓ Part 2 state management test prepared")
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
