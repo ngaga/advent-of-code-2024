@@ -1,80 +1,80 @@
 # Advent of Code 2024
 
-Mes solutions pour l'Advent of Code 2024.
+My solutions for Advent of Code 2024.
 
-## 🐳 Installation et exécution avec Docker
+## 🐳 Installation and execution with Docker
 
-### Prérequis
+### Prerequisites
 - Docker
 - Docker Compose
 
-### Lancement rapide
+### Quick start
 
-#### Option 1: Script automatique (recommandé)
+#### Option 1: Automatic script (recommended)
 ```bash
 ./run.sh
 ```
 
-#### Option 2: Commandes Docker manuelles
+#### Option 2: Manual Docker commands
 
-**Construire l'image :**
+**Build the image:**
 ```bash
 docker-compose build
 ```
 
-**Exécuter une solution spécifique :**
+**Run a specific solution:**
 ```bash
-# Jour 1
+# Day 1
 docker-compose run --rm advent-of-code python day1/solution.py
 
-# Jour 2
+# Day 2
 docker-compose run --rm advent-of-code python day2/solution.py
 
-# Jour 3
+# Day 3
 docker-compose run --rm advent-of-code python day3/solution.py
 
-# Jour 4
+# Day 4
 docker-compose run --rm advent-of-code python day4/solution.py
 ```
 
-**Exécuter les tests :**
+**Run tests:**
 ```bash
-# Tests d'un jour spécifique
+# Tests for a specific day
 docker-compose run --rm advent-of-code python -m pytest day1/test_solution.py -v
 
-# Tests de tous les jours
+# Tests for all days
 docker-compose run --rm advent-of-code python -m pytest day*/test_solution.py -v
 ```
 
-### Structure du projet
+### Project structure
 ```
 ├── day1/
-│   ├── solution.py                    # Solution du jour 1
-│   ├── test_solution.py              # Tests du jour 1
-│   └── test_connection.py            # Test de connexion
+│   ├── solution.py                    # Day 1 solution
+│   ├── test_solution.py              # Day 1 tests
+│   └── test_connection.py            # Connection test
 ├── day2/
-│   ├── solution.py                    # Solution du jour 2
-│   └── test_solution.py              # Tests du jour 2
+│   ├── solution.py                    # Day 2 solution
+│   └── test_solution.py              # Day 2 tests
 ├── day3/
-│   ├── solution.py                    # Solution du jour 3
-│   └── test_solution.py              # Tests du jour 3
+│   ├── solution.py                    # Day 3 solution
+│   └── test_solution.py              # Day 3 tests
 ├── day4/
-│   ├── solution.py                    # Solution du jour 4
-│   └── test_solution.py              # Tests du jour 4
-├── Dockerfile                         # Configuration Docker
-├── docker-compose.yml                # Configuration Docker Compose
-├── requirements.txt                   # Dépendances Python
-├── run.sh                           # Script d'aide pour l'exécution
-└── README.md                        # Ce fichier
+│   ├── solution.py                    # Day 4 solution
+│   └── test_solution.py              # Day 4 tests
+├── Dockerfile                         # Docker configuration
+├── docker-compose.yml                # Docker Compose configuration
+├── requirements.txt                   # Python dependencies
+├── run.sh                           # Helper script for execution
+└── README.md                        # This file
 ```
 
-### Dépendances
+### Dependencies
 - Python 3.11
 - requests==2.31.0
 
-## 🚀 Installation locale (sans Docker)
+## 🚀 Local installation (without Docker)
 
-Si vous préférez installer localement :
+If you prefer to install locally:
 
 ```bash
 pip install -r requirements.txt
