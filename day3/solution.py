@@ -36,7 +36,7 @@ def read_string(corrupted_memory, string_to_read, current_index):
 
 # Reads a int number which is up to 3 digits long.
 # returns (number or None, the next index to start searching for next pattern)
-def read_numbers(corrupted_memory, current_index):
+def read_number(corrupted_memory, current_index):
     i = current_index
     # Find the start of the number (skip non-digit characters)
     while i < len(corrupted_memory) and not corrupted_memory[i].isdigit():
@@ -76,12 +76,12 @@ def find_valid_mul_instructions(corrupted_memory):
         if read_string(corrupted_memory, "mul(", i):
             # Move past "mul(" (4 characters)
             i += 4
-            first_number_result, i = read_numbers(corrupted_memory, i)
+            first_number_result, i = read_number(corrupted_memory, i)
             if first_number_result is not None:
                 # Look for comma
                 if i < len(corrupted_memory) and corrupted_memory[i] == ',':
                     i += 1  # Move past comma
-                    second_number_result, i = read_numbers(corrupted_memory, i)
+                    second_number_result, i = read_number(corrupted_memory, i)
                     if second_number_result is not None:
                         # Look for closing parenthesis
                         if i < len(corrupted_memory) and corrupted_memory[i] == ')':
