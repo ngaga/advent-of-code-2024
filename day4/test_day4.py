@@ -10,7 +10,7 @@ import os
 # Add the day4 directory to the path so we can import the module
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
-from solution import get_advent_of_code_data, find_xmas_occurrences, count_xmas_in_grid
+from solution import get_advent_of_code_data, find_xmas_occurrences, count_xmas_in_grid, find_x_mas_patterns, count_x_mas_in_grid
 
 class TestDay4Solution:
     """Test cases for Day 4 solution"""
@@ -271,6 +271,236 @@ class TestDay4Solution:
         
         print("✓ Complex overlapping test passed")
         print(f"  Found {len(occurrences)} XMAS in complex overlapping scenario")
+
+class TestDay4Part2Solution:
+    """Test cases for Day 4 Part 2 solution - X-MAS patterns"""
+    
+    def test_simple_x_mas_pattern(self):
+        """Test finding simple X-MAS pattern"""
+        grid = [
+            "M.S",
+            ".A.",
+            "M.S"
+        ]
+        
+        x_mas_occurrences = find_x_mas_patterns(grid)
+        expected_count = 1
+        
+        assert len(x_mas_occurrences) == expected_count, f"Expected {expected_count} X-MAS patterns, got {len(x_mas_occurrences)}"
+        print("✓ Simple X-MAS pattern test passed")
+        print(f"  Found {len(x_mas_occurrences)} X-MAS patterns")
+    
+    def test_x_mas_with_backwards_mas(self):
+        """Test X-MAS with backwards MAS"""
+        grid = [
+            "S.M",
+            ".A.",
+            "S.M"
+        ]
+        
+        x_mas_occurrences = find_x_mas_patterns(grid)
+        expected_count = 1
+        
+        assert len(x_mas_occurrences) == expected_count, f"Expected {expected_count} X-MAS patterns, got {len(x_mas_occurrences)}"
+        print("✓ X-MAS with backwards MAS test passed")
+        print(f"  Found {len(x_mas_occurrences)} X-MAS patterns")
+    
+    def test_multiple_x_mas_patterns(self):
+        """Test multiple X-MAS patterns in grid"""
+        grid = [
+            "M.S.M.S",
+            ".A...A.",
+            "M.S.M.S"
+        ]
+        
+        x_mas_occurrences = find_x_mas_patterns(grid)
+        expected_count = 2
+        
+        assert len(x_mas_occurrences) == expected_count, f"Expected {expected_count} X-MAS patterns, got {len(x_mas_occurrences)}"
+        print("✓ Multiple X-MAS patterns test passed")
+        print(f"  Found {len(x_mas_occurrences)} X-MAS patterns")
+    
+    def test_problem_sample_grid_part2(self):
+        """Test with the exact sample grid from Part 2 problem"""
+        sample_grid = [
+            ".M.S......",
+            "..A..MSMS.",
+            ".M.S.MAA..",
+            "..A.ASMSM.",
+            ".M.S.M....",
+            "..........",
+            "S.S.S.S.S.",
+            ".A.A.A.A..",
+            "M.M.M.M.M.",
+            ".........."
+        ]
+        
+        x_mas_occurrences = find_x_mas_patterns(sample_grid)
+        expected_count = 9  # As stated in the problem
+        
+        assert len(x_mas_occurrences) == expected_count, f"Expected {expected_count} X-MAS patterns, got {len(x_mas_occurrences)}"
+        
+        print("✓ Problem sample grid Part 2 test passed")
+        print(f"  Found {len(x_mas_occurrences)} X-MAS patterns in sample grid")
+        print("  Expected: 9 patterns as stated in problem")
+    
+    def test_count_x_mas_in_grid(self):
+        """Test count_x_mas_in_grid function with sample data"""
+        sample_grid = [
+            ".M.S......",
+            "..A..MSMS.",
+            ".M.S.MAA..",
+            "..A.ASMSM.",
+            ".M.S.M....",
+            "..........",
+            "S.S.S.S.S.",
+            ".A.A.A.A..",
+            "M.M.M.M.M.",
+            ".........."
+        ]
+        
+        total_count = count_x_mas_in_grid(sample_grid)
+        expected_count = 9
+        
+        assert total_count == expected_count, f"Expected {expected_count} total X-MAS patterns, got {total_count}"
+        
+        print("✓ Count X-MAS in grid test passed")
+        print(f"  Total X-MAS count: {total_count}")
+    
+    def test_x_mas_edge_cases(self):
+        """Test edge cases for X-MAS pattern search"""
+        test_cases = [
+            # (grid, expected_count, description)
+            ([
+                "M.S",
+                ".A.",
+                "M.S"
+            ], 1, "Single X-MAS pattern"),
+            ([
+                "M.S.M.S",
+                ".A...A.",
+                "M.S.M.S"
+            ], 2, "Two X-MAS patterns in same grid"),
+            ([
+                "S.M",
+                ".A.",
+                "S.M"
+            ], 1, "X-MAS with backwards MAS"),
+            ([
+                "M.A",
+                ".S.",
+                "M.A"
+            ], 0, "Wrong pattern (not X-MAS)"),
+            ([
+                "...",
+                "...",
+                "..."
+            ], 0, "Empty pattern"),
+            ([
+                "M",
+                "A",
+                "S"
+            ], 0, "Too small for X-MAS pattern"),
+            ([
+                "M.S",
+                ".A.",
+                "M.S",
+                "...",
+                "M.S",
+                ".A.",
+                "M.S"
+            ], 2, "Two X-MAS patterns in larger grid"),
+        ]
+        
+        for grid, expected, description in test_cases:
+            print(f"  Testing: {description}")
+            print(f"    Grid: {grid}")
+            print(f"    Expected count: {expected}")
+            result = count_x_mas_in_grid(grid)
+            assert result == expected, f"{description}: Expected {expected}, got {result}"
+            print(f"    ✓ Passed")
+        
+        print("✓ X-MAS edge cases test passed")
+    
+    def test_x_mas_different_orientations(self):
+        """Test X-MAS patterns in different orientations"""
+        test_cases = [
+            # (grid, expected_count, description)
+            ([
+                "M.S",
+                ".A.",
+                "M.S"
+            ], 1, "Standard X-MAS orientation"),
+            ([
+                "S.M",
+                ".A.",
+                "S.M"
+            ], 1, "X-MAS with backwards MAS"),
+            ([
+                "M.S",
+                ".A.",
+                "S.M"
+            ], 0, "Mixed orientation (not valid X-MAS)"),
+            ([
+                "S.M",
+                ".A.",
+                "M.S"
+            ], 0, "Mixed orientation (not valid X-MAS)"),
+        ]
+        
+        for grid, expected, description in test_cases:
+            print(f"  Testing: {description}")
+            print(f"    Grid: {grid}")
+            print(f"    Expected count: {expected}")
+            result = count_x_mas_in_grid(grid)
+            assert result == expected, f"{description}: Expected {expected}, got {result}"
+            print(f"    ✓ Passed")
+        
+        print("✓ X-MAS different orientations test passed")
+    
+    def test_large_x_mas_grid(self):
+        """Test with a larger grid containing multiple X-MAS patterns"""
+        # Create a 10x10 grid with some X-MAS patterns scattered around
+        grid = []
+        for i in range(10):
+            if i == 1:
+                grid.append(".M.S......")
+            elif i == 2:
+                grid.append("..A.......")
+            elif i == 3:
+                grid.append(".M.S......")
+            elif i == 6:
+                grid.append("S.M.......")
+            elif i == 7:
+                grid.append(".A........")
+            elif i == 8:
+                grid.append("S.M.......")
+            else:
+                grid.append("." * 10)
+        
+        x_mas_occurrences = find_x_mas_patterns(grid)
+        expected_count = 2  # Two X-MAS patterns in the grid
+        
+        assert len(x_mas_occurrences) == expected_count, f"Expected {expected_count} X-MAS patterns, got {len(x_mas_occurrences)}"
+        
+        print("✓ Large X-MAS grid test passed")
+        print(f"  Found {len(x_mas_occurrences)} X-MAS patterns in 10x10 grid")
+    
+    def test_overlapping_x_mas_patterns(self):
+        """Test overlapping X-MAS patterns"""
+        grid = [
+            "M.S.M.S",
+            ".A...A.",
+            "M.S.M.S"
+        ]
+        
+        x_mas_occurrences = find_x_mas_patterns(grid)
+        expected_count = 2  # Two overlapping X-MAS patterns
+        
+        assert len(x_mas_occurrences) == expected_count, f"Expected {expected_count} X-MAS patterns, got {len(x_mas_occurrences)}"
+        
+        print("✓ Overlapping X-MAS patterns test passed")
+        print(f"  Found {len(x_mas_occurrences)} overlapping X-MAS patterns")
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

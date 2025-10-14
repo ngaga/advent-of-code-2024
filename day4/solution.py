@@ -89,6 +89,14 @@ def count_xmas_in_grid(grid):
     occurrences = find_xmas_occurrences(grid)
     return len(occurrences)
 
+def find_x_mas_patterns(grid):
+    """Find all X-MAS patterns in the grid"""
+    pass
+
+def count_x_mas_in_grid(grid):
+    """Count total number of X-MAS patterns in the grid"""
+    pass
+
 def main():
     print("Advent of Code 2024 - Day 4 Solution")
     print("=" * 40)
