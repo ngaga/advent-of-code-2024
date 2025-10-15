@@ -10,8 +10,9 @@ My solutions for Advent of Code 2024.
 - Docker Compose
 
 ### Run tests and solutions
+0) Go to the root of the project
 
-1) Get your session token from the Advent of Code (see 'How to get your session token'section bellow )
+1) Get your session token from the Advent of Code (see [How to get your session token](#how-to-get-your-session-token) section below)
 
 2) Create a `.env` file in the project root with your Advent of Code session token:
 ```bash
