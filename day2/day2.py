@@ -5,6 +5,15 @@ Advent of Code 2024 - Day 2 Solution
 
 import requests
 import os
+import sys
+
+# Add parent directory to path to import utils
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils.common_logger import setup_logger, get_logger
+
+# Setup logger
+setup_logger()
+logger = get_logger()
 
 def get_advent_of_code_data():
     """Fetch data from Advent of Code 2024 Day 2"""
@@ -15,11 +24,11 @@ def get_advent_of_code_data():
         raise ValueError("ADVENT_OF_CODE_SESSION environment variable not set. Please check your .env file.")
     cookies = {'session': my_session}
     
-    print("Fetching data from Advent of Code...")
+    logger.debug("Fetching data from Advent of Code...")
     response = requests.get(url, cookies=cookies)
     
     if response.status_code == 200:
-        print("Data fetched successfully!")
+        logger.debug("Data fetched successfully!")
         # Parse the data - each line contains numbers separated by whitespace
         lines = response.text.strip().split('\n')
         
@@ -30,10 +39,10 @@ def get_advent_of_code_data():
                 report = [int(x) for x in line.strip().split()]
                 reports.append(report)
         
-        print(f"Retrieved {len(reports)} reports")
+        logger.debug(f"Retrieved {len(reports)} reports")
         return reports
     else:
-        print(f"Error fetching data: {response.status_code}")
+        logger.error(f"Error fetching data: {response.status_code}")
         return None
 
 def is_safe_report(report):
@@ -99,24 +108,24 @@ def count_safe_reports_by_one_report(reports):
     return safe_count
 
 def main():
-    print("Advent of Code 2024 - Day 2 Solution")
-    print("=" * 40)
+    logger.info("Advent of Code 2024 - Day 2 Solution")
+    logger.info("=" * 40)
     
     # Get data from Advent of Code
     reports = get_advent_of_code_data()
     
     if reports is None:
-        print("Error: Failed to fetch data from Advent of Code")
+        logger.error("Error: Failed to fetch data from Advent of Code")
         return
     
-    print(f"Loaded {len(reports)} reports")
+    logger.info(f"Loaded {len(reports)} reports")
     
     # Count safe reports
     safe_count = count_safe_reports(reports)
-    print(f"Number of safe reports: {safe_count} out of {len(reports)}")
-
     safe_count_by_one_report = count_safe_reports_by_one_report(reports)
-    print(f"Number of safe reports by one report: {safe_count_by_one_report} out of {len(reports)}")
+    
+    logger.success(f"Part 1: {safe_count} out of {len(reports)}")
+    logger.success(f"Part 2: {safe_count_by_one_report} out of {len(reports)}")
 
 if __name__ == "__main__":
     main()

@@ -5,7 +5,15 @@ Advent of Code 2024 - Day 3 Solution
 
 import requests
 import os
-import re
+import sys
+
+# Add parent directory to path to import utils
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils.common_logger import setup_logger, get_logger
+
+# Setup logger
+setup_logger()
+logger = get_logger()
 
 def get_advent_of_code_data():
     """Fetch data from Advent of Code 2024 Day 3"""
@@ -16,18 +24,18 @@ def get_advent_of_code_data():
         raise ValueError("ADVENT_OF_CODE_SESSION environment variable not set. Please check your .env file.")
     cookies = {'session': my_session}
     
-    print("Fetching data from Advent of Code...")
+    logger.debug("Fetching data from Advent of Code...")
     response = requests.get(url, cookies=cookies)
     
     if response.status_code == 200:
-        print("Data fetched successfully!")
+        logger.debug("Data fetched successfully!")
         # Parse the data - corrupted memory as a single string
         corrupted_memory = response.text.strip()
         
-        print(f"Retrieved corrupted memory of length {len(corrupted_memory)}")
+        logger.debug(f"Retrieved corrupted memory of length {len(corrupted_memory)}")
         return corrupted_memory
     else:
-        print(f"Error fetching data: {response.status_code}")
+        logger.error(f"Error fetching data: {response.status_code}")
         return None
 
 
@@ -126,34 +134,34 @@ def extract_do_instructions(corrupted_memory):
 
 
 def main():
-    print("Advent of Code 2024 - Day 3 Solution")
-    print("=" * 40)
+    logger.info("Advent of Code 2024 - Day 3 Solution")
+    logger.info("=" * 40)
     
     # Get data from Advent of Code
     corrupted_memory = get_advent_of_code_data()
     
     if corrupted_memory is None:
-        print("Error: Failed to fetch data from Advent of Code")
+        logger.error("Error: Failed to fetch data from Advent of Code")
         return
     
-    print(f"Loaded corrupted memory of length {len(corrupted_memory)}")
+    logger.debug(f"Loaded corrupted memory of length {len(corrupted_memory)}")
     
     # Part 1: Calculate the sum of all valid mul instructions
     valid_instructions = find_valid_mul_instructions(corrupted_memory)
-    print(f"Part 1 - Found {len(valid_instructions)} valid mul instructions")
-    print(f"Valid instructions: {valid_instructions}")
+    logger.debug(f"Part 1 - Found {len(valid_instructions)} valid mul instructions")
+    logger.debug(f"Valid instructions: {valid_instructions}")
     total_sum = calculate_multiplication_sum(valid_instructions)
-    print(f"Part 1 - Sum of all valid mul instruction results: {total_sum}")
+    logger.success(f"Part 1: {total_sum}")
     
     # Part 2: Calculate the sum considering do() and dont() state
-    print("\n" + "=" * 40)
-    print("Part 2 - With do() and dont() state management")
-    print("=" * 40)
+    logger.info("\n" + "=" * 40)
+    logger.info("Part 2 - With do() and dont() state management")
+    logger.info("=" * 40)
     
     do_instructions = extract_do_instructions(corrupted_memory)
-    print(f"Part 2 - Do instructions: {do_instructions}")
+    logger.debug(f"Part 2 - Do instructions: {do_instructions}")
     total_sum_part2 = calculate_multiplication_sum(find_valid_mul_instructions(do_instructions))
-    print(f"Part 2 - Sum of all valid mul instruction results: {total_sum_part2}")
+    logger.success(f"Part 2: {total_sum_part2}")
 
 if __name__ == "__main__":
     main()

@@ -4,17 +4,19 @@ FROM python:3.11-slim
 # Set working directory
 WORKDIR /app
 
-# Copy requirements first for better caching
-COPY requirements.txt .
+# Copy pyproject.toml first for better caching
+COPY pyproject.toml .
 
 # Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -e .
+RUN pip install --no-cache-dir -e ".[dev]"
 
 # Copy the application code
+COPY utils/ ./utils/
 COPY day1/ ./day1/
 COPY day2/ ./day2/
 COPY day3/ ./day3/
 COPY day4/ ./day4/
 
 # Set the default command to run the main script
-CMD ["python", "day1/solution.py"]
+CMD ["python", "day1/day1.py"]

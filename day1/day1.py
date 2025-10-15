@@ -1,20 +1,15 @@
 import requests
 import os
 import numpy as np
-from loguru import logger
+import sys
 
-# Configure loguru based on environment variables
-if os.getenv("DISABLE_LOGS", "false").lower() == "true":
-    logger.remove()
-    logger.add(lambda msg: None)  # Disable all logs
-elif os.getenv("LOG_LEVEL"):
-    logger.remove()
-    logger.add(lambda msg: None, level=os.getenv("LOG_LEVEL"))
-else:
-    # Default configuration with colors and timestamps
-    logger.remove()
-    logger.add(lambda msg: print(msg, end=""), 
-               format="<green>{time:HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{message}</cyan>")
+# Add parent directory to path to import utils
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils.common_logger import setup_logger, get_logger
+
+# Setup logger
+setup_logger()
+logger = get_logger()
 
 def get_advent_of_code_data():
     """Fetch data from Advent of Code 2024 Day 1"""

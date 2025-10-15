@@ -6,6 +6,15 @@ Advent of Code 2024 - Day 4 Solution
 import requests
 import os
 import numpy as np
+import sys
+
+# Add parent directory to path to import utils
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils.common_logger import setup_logger, get_logger
+
+# Setup logger
+setup_logger()
+logger = get_logger()
 
 def get_advent_of_code_data():
     """Fetch data from Advent of Code 2024 Day 4"""
@@ -16,11 +25,11 @@ def get_advent_of_code_data():
         raise ValueError("ADVENT_OF_CODE_SESSION environment variable not set. Please check your .env file.")
     cookies = {'session': my_session}
     
-    print("Fetching data from Advent of Code...")
+    logger.debug("Fetching data from Advent of Code...")
     response = requests.get(url, cookies=cookies)
     
     if response.status_code == 200:
-        print("Data fetched successfully!")
+        logger.debug("Data fetched successfully!")
         # Parse the data - each line is a row of the word search grid
         lines = response.text.strip().split('\n')
         
@@ -28,13 +37,13 @@ def get_advent_of_code_data():
         grid = [line.strip() for line in lines if line.strip()]
         
         if not grid:
-            print("No valid data found")
+            logger.warning("No valid data found")
             return None
         
-        print(f"Retrieved word search grid of size {len(grid)}x{len(grid[0]) if grid else 0}")
+        logger.debug(f"Retrieved word search grid of size {len(grid)}x{len(grid[0]) if grid else 0}")
         return grid
     else:
-        print(f"Error fetching data: {response.status_code}")
+        logger.error(f"Error fetching data: {response.status_code}")
         return None
     
 
@@ -159,18 +168,18 @@ def count_x_mas_in_grid(grid):
     return len(occurrences)
 
 def main():
-    print("Advent of Code 2024 - Day 4 Solution")
-    print("=" * 40)
+    logger.info("Advent of Code 2024 - Day 4 Solution")
+    logger.info("=" * 40)
     
     # Get data from Advent of Code
     grid = get_advent_of_code_data()
     
     if grid is None:
-        print("Error: Failed to fetch data from Advent of Code")
+        logger.error("Error: Failed to fetch data from Advent of Code")
         return  
     
-    print(f"Number of XMAS occurrences: {count_xmas_in_grid(grid)}")
-    print(f"Number of X-MAS patterns: {count_x_mas_in_grid(grid)}")
+    logger.success(f"Part 1: {count_xmas_in_grid(grid)}")
+    logger.success(f"Part 2: {count_x_mas_in_grid(grid)}")
 
 if __name__ == "__main__":
     main()
