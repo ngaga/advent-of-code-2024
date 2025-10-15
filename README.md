@@ -11,13 +11,19 @@ My solutions for Advent of Code 2024.
 
 ### Run tests and solutions
 
-### Create .env
+1) Get your session token from the Advent of Code (see 'How to get your session token'section bellow )
 
-Create a `.env` file in the project root with your Advent of Code session token:
-
+2) Create a `.env` file in the project root with your Advent of Code session token:
 ```bash
 echo "ADVENT_OF_CODE_SESSION=your_session_token_here" > .env
 ```
+3) Then run all tests and all solutions 
+
+```bash
+./run.sh
+```
+
+### How to get your session token
 
 To get your session token:
 1. Go to [Advent of Code](https://adventofcode.com/)
@@ -44,8 +50,3 @@ ADVENT_OF_CODE_SESSION=your_actual_token_here
 - The file should be named exactly `.env` (with the dot at the beginning and nothing after)
 
 
-
-#### 
-```bash
-./run.sh
-```
