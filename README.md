@@ -10,7 +10,7 @@ My solutions for Advent of Code 2024.
 - Docker Compose
 
 ### Run tests and solutions
-0) Go to the root of the project
+0) Clone the project (e.g. with git and ssh) and go to the root of the project
 
 1) Get your session token from the Advent of Code (see [How to get your session token](#how-to-get-your-session-token) section below)
 
