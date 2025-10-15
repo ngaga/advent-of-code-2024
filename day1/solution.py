@@ -1,6 +1,20 @@
 import requests
 import os
 import numpy as np
+from loguru import logger
+
+# Configure loguru based on environment variables
+if os.getenv("DISABLE_LOGS", "false").lower() == "true":
+    logger.remove()
+    logger.add(lambda msg: None)  # Disable all logs
+elif os.getenv("LOG_LEVEL"):
+    logger.remove()
+    logger.add(lambda msg: None, level=os.getenv("LOG_LEVEL"))
+else:
+    # Default configuration with colors and timestamps
+    logger.remove()
+    logger.add(lambda msg: print(msg, end=""), 
+               format="<green>{time:HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{message}</cyan>")
 
 def get_advent_of_code_data():
     """Fetch data from Advent of Code 2024 Day 1"""
@@ -11,11 +25,11 @@ def get_advent_of_code_data():
         raise ValueError("ADVENT_OF_CODE_SESSION environment variable not set. Please check your .env file.")
     cookies = {'session': my_session}
     
-    print("Fetching data from Advent of Code...")
+    logger.debug("Fetching data from Advent of Code...")
     response = requests.get(url, cookies=cookies)
     
     if response.status_code == 200:
-        print("Data fetched successfully!")
+        logger.debug("Data fetched successfully!")
         # Parse the data - each line contains two numbers separated by whitespace
         lines = response.text.strip().split('\n')
         
@@ -24,7 +38,7 @@ def get_advent_of_code_data():
         num_pairs = len(valid_lines)
         
         if num_pairs == 0:
-            print("No valid data found")
+            logger.warning("No valid data found")
             return None
         
         # Create matrix directly
@@ -34,11 +48,9 @@ def get_advent_of_code_data():
             matrix[i, 0] = int(numbers[0])
             matrix[i, 1] = int(numbers[1])
         
-        print(f"Retrieved {num_pairs} pairs of numbers")
-        print(f"Matrix shape: {matrix.shape}")
         return matrix
     else:
-        print(f"Error fetching data: {response.status_code}")
+        logger.error(f"Error fetching data: {response.status_code}")
         return None
 
 # Count how many times each number of the leftList is present in the rightList and add this number 
@@ -59,14 +71,14 @@ def distanceSumOfSortedElements(list_a, list_b):
 
 
 def main():
-    print("Advent of Code 2024 - Day 1 Solution")
-    print("=" * 40)
+    logger.info("Advent of Code 2024 - Day 1 Solution")
+    logger.info("=" * 40)
     
     # Get data from Advent of Code
     matrix = get_advent_of_code_data()
 
     if matrix is None:
-        print("Error: Failed to fetch data from Advent of Code")
+        logger.error("Error: Failed to fetch data from Advent of Code")
         return
     else:
         # Extract columns
@@ -76,9 +88,9 @@ def main():
         sorted_distance = distanceSumOfSortedElements(col_a.tolist(), col_b.tolist())
         similarity_index = brute_force_calculate_similarity_index(col_a.tolist(), col_b.tolist())
         
-        print(f"Day 1:")
-        print(f"Part 1: {sorted_distance}")
-        print(f"Part 2: {similarity_index}")
+        logger.info(f"Day 1:")
+        logger.success(f"Part 1: {sorted_distance}")
+        logger.success(f"Part 2: {similarity_index}")
 
 if __name__ == "__main__":
     main()
