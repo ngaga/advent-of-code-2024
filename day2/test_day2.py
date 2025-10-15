@@ -4,13 +4,8 @@ Advent of Code 2024 - Day 2 Tests
 """
 
 import pytest
-import sys
-import os
 
-# Add the day2 directory to the path so we can import the module
-sys.path.append(os.path.join(os.path.dirname(__file__)))
-
-from day2 import count_safe_reports, is_safe_report, is_safe_by_one_report, count_safe_reports_by_one_report
+from day2.day2 import count_safe_reports, is_safe_report, is_safe_by_one_report, count_safe_reports_by_one_report
 
 class TestDay2Solution:
     """Test cases for Day 2 solution"""

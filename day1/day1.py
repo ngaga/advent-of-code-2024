@@ -1,10 +1,7 @@
 import requests
 import os
 import numpy as np
-import sys
 
-# Add parent directory to path to import utils
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.common_logger import setup_logger, get_logger
 
 # Setup logger

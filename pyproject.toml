@@ -10,16 +10,16 @@ authors = [
     {name = "Nicolas Garmoux", email = "nicolas@garmoux.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 dependencies = [
-    "requests==2.31.0",
-    "numpy==1.24.3",
-    "loguru==0.7.2",
+    "requests>=2.32.5",
+    "numpy>=2.0.2",
+    "loguru>=0.7.3",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest==7.4.3",
+    "pytest>=7.4.3",
 ]
 
 [tool.pytest.ini_options]

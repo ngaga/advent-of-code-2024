@@ -1,11 +1,6 @@
 import pytest
-import sys
-import os
 
-# Add the day1 directory to the path so we can import the module
-sys.path.append(os.path.join(os.path.dirname(__file__), 'day1'))
-
-from day1 import distanceSumOfSortedElements, brute_force_calculate_similarity_index
+from day1.day1 import distanceSumOfSortedElements, brute_force_calculate_similarity_index
 
 class TestDay1Algorithm:
     """Test cases for the Day 1 sorted distance algorithm"""
