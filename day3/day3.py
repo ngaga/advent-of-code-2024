@@ -72,6 +72,9 @@ def read_number(corrupted_memory, current_index):
     
     return (None, i + 4)
 
+
+# Note: we could a regex here be it is a bit cheated :D lets try it mannually.
+#     pattern = r'mul\((\d{1,3}),(\d{1,3})\)'
 def find_valid_mul_instructions(corrupted_memory):
     """Find all valid mul instructions in the corrupted memory.
     
@@ -97,9 +100,11 @@ def find_valid_mul_instructions(corrupted_memory):
                             valid_instructions.append((first_number_result, second_number_result))
     return valid_instructions
 
+
 # pass a list of pairs of numbers
 def calculate_multiplication_sum(instructions):
     return sum(instruction[0] * instruction[1] for instruction in instructions)
+
 
 # Returns the string curated from what is in between a "don't()" and a "do()" keywords
 # We are in a "do()" state at the beginning.
