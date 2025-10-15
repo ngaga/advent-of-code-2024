@@ -9,40 +9,13 @@ My solutions for Advent of Code 2024.
 - Docker
 - Docker Compose
 
-### Quick start
+### Run tests and solutions
 
-#### Option 1: Automatic script (recommended)
+### Create .env
+
+
+
+#### 
 ```bash
 ./run.sh
-```
-
-#### Option 2: Manual Docker commands
-
-**Build the image:**
-```bash
-docker-compose build
-```
-
-**Run a specific solution:**
-```bash
-# Day 1
-docker-compose run --rm advent-of-code python day1/solution.py
-
-# Day 2
-docker-compose run --rm advent-of-code python day2/solution.py
-
-# Day 3
-docker-compose run --rm advent-of-code python day3/solution.py
-
-# Day 4
-docker-compose run --rm advent-of-code python day4/solution.py
-```
-
-**Run tests:**
-```bash
-# Tests for a specific day
-docker-compose run --rm advent-of-code python -m pytest day1/test_solution.py -v
-
-# Tests for all days
-docker-compose run --rm advent-of-code python -m pytest day*/test_solution.py -v
 ```
