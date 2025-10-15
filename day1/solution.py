@@ -41,11 +41,7 @@ def get_advent_of_code_data():
         print(f"Error fetching data: {response.status_code}")
         return None
 
-def sort_lists(list_a, list_b):
-    """Sort two lists and return the sorted versions"""
-    return sorted(list_a), sorted(list_b)
-
-# count how many times each number of the leftList is present in the rightList and add this number 
+# Count how many times each number of the leftList is present in the rightList and add this number 
 # multiplied by the number of the leftList to the result.
 # complexity is O(n^2) where n is the length of the longest list -> we can do better probably.
 def brute_force_calculate_similarity_index(leftList, rightList):
@@ -56,43 +52,9 @@ def brute_force_calculate_similarity_index(leftList, rightList):
     return result
 
 
-# TODO: WIP not working yet
-def calculate_similarity_index(sorted_list_a, sorted_list_b):
-    """Calculate similarity index between two sorted lists"""
-    # Day 1 part 2
-    # We benefit from the fact that the columns are sorted already.
-    # We keep track of the number of occurences of the current value.
-    # When he have a mismatch we add the value of the previous value to the result
-    # multiplied by the number of occurences. And we reset the occurence count.
-    i = 0
-    j = 0
-    result = 0
-    last_match_value = 0
-    occurence_count = 0
-    while i < len(sorted_list_a) and j < len(sorted_list_b):
-        if sorted_list_a[i] < sorted_list_b[j]:
-            i += 1
-            result += last_match_value * occurence_count
-            occurence_count = 0
-        elif sorted_list_a[i] > sorted_list_b[j]:
-            j += 1
-            result += sorted_list_b[j] * occurence_count
-            occurence_count = 0
-        else: # sorted_list_a[i] == sorted_list_b[j]
-            last_match_value = sorted_list_a[i]
-            i += 1
-            j += 1
-            occurence_count += 1
-    return result
-
-def sortedDistance(list_a, list_b):
-    """Calculate sorted distance between two lists (for testing purposes)"""
-    # Sort both lists
-    sorted_a, sorted_b = sort_lists(list_a, list_b)
-    
-    # Calculate absolute differences
+def distanceSumOfSortedElements(list_a, list_b):
+    sorted_a, sorted_b = sorted(list_a), sorted(list_b)
     distances = [abs(a - b) for a, b in zip(sorted_a, sorted_b)]
-    
     return sum(distances)
 
 
@@ -102,39 +64,21 @@ def main():
     
     # Get data from Advent of Code
     matrix = get_advent_of_code_data()
-    
+
     if matrix is None:
         print("Error: Failed to fetch data from Advent of Code")
         return
     else:
-        print(f"\nMatrix:")
-        print(matrix)
-        print(f"Shape: {matrix.shape}")
-        
         # Extract columns
         col_a = matrix[:, 0]  # First column
         col_b = matrix[:, 1]  # Second column
+      
+        sorted_distance = distanceSumOfSortedElements(col_a.tolist(), col_b.tolist())
+        similarity_index = brute_force_calculate_similarity_index(col_a.tolist(), col_b.tolist())
         
-        # Sort both columns
-        col_a_sorted = np.sort(col_a)
-        col_b_sorted = np.sort(col_b)
-        
-        print(f"Column A sorted: {col_a_sorted}")
-        print(f"Column B sorted: {col_b_sorted}")
-        
-        # Calculate sorted distance using the sortedDistance function
-        sorted_distance = sortedDistance(col_a.tolist(), col_b.tolist())
-        print(f"Sorted distance: {sorted_distance}")
-        
-        # Calculate similarity index
-        # TODO: Calculate similarity index using the calculate_similarity_index function, it should be faster.
-        # Note: here we do not need a sorted list for now with the brute force approach.
-        similarity_index = brute_force_calculate_similarity_index(col_a_sorted.tolist(), col_b_sorted.tolist())
-        print(f"Similarity index: {similarity_index}")
-        
-        print(f"\nResults:")
-        print(f"Sorted distance: {sorted_distance}")
-        print(f"Similarity index: {similarity_index}")
+        print(f"Day 1:")
+        print(f"Part 1: {sorted_distance}")
+        print(f"Part 2: {similarity_index}")
 
 if __name__ == "__main__":
     main()
