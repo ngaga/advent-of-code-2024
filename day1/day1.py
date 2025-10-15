@@ -1,6 +1,7 @@
 import requests
 import os
 import numpy as np
+from collections import Counter
 
 from utils.common_logger import setup_logger, get_logger
 
@@ -46,15 +47,13 @@ def get_advent_of_code_data():
         logger.error(f"Error fetching data: {response.status_code}")
         return None
 
-# Count how many times each number of the leftList is present in the rightList and add this number 
-# multiplied by the number of the leftList to the result.
-# complexity is O(n^2) where n is the length of the longest list -> we can do better probably.
-def brute_force_calculate_similarity_index(leftList, rightList):
-    result = 0
-    for l in leftList:
-        count = rightList.count(l)
-        result += l * count
-    return result
+
+# Count occurrences in the right list: O(n)
+# Calculate the score: O(n)
+# Complexity: O(n)
+def similarity_score(left_list, right_list):
+    right_counter = Counter(right_list) 
+    return sum(item * right_counter[item] for item in left_list)
 
 
 def distanceSumOfSortedElements(list_a, list_b):
@@ -75,9 +74,9 @@ def main():
         # Extract columns
         col_a = matrix[:, 0]  # First column
         col_b = matrix[:, 1]  # Second column
-      
+        # TODO: numpy matrix finally not needed here. Could be replaced by lists.
         sorted_distance = distanceSumOfSortedElements(col_a.tolist(), col_b.tolist())
-        similarity_index = brute_force_calculate_similarity_index(col_a.tolist(), col_b.tolist())
+        similarity_index = similarity_score(col_a.tolist(), col_b.tolist())
         
         logger.success(f"Part 1: {sorted_distance}")
         logger.success(f"Part 2: {similarity_index}")

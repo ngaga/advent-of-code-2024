@@ -1,6 +1,6 @@
 import pytest
 
-from day1.day1 import distanceSumOfSortedElements, brute_force_calculate_similarity_index
+from day1.day1 import distanceSumOfSortedElements, similarity_score
 
 class TestDay1Algorithm:
     """Test cases for the Day 1 sorted distance algorithm"""
@@ -74,7 +74,7 @@ class TestSimilarityIndex:
         a = [1, 2, 3]
         b = [2, 3, 4]
         
-        result = brute_force_calculate_similarity_index(a, b)
+        result = similarity_score(a, b)
         expected = 5  # 2 + 3 = 5 (common values)
         
         assert result == expected, f"Expected {expected}, got {result}"
@@ -84,7 +84,7 @@ class TestSimilarityIndex:
         a = [1, 2, 3]
         b = [4, 5, 6]
         
-        result = brute_force_calculate_similarity_index(a, b)
+        result = similarity_score(a, b)
         expected = 0  # No common values
         
         assert result == expected, f"Expected {expected}, got {result}"
@@ -94,7 +94,7 @@ class TestSimilarityIndex:
         a = [1, 2, 3]
         b = [1, 2, 3]
         
-        result = brute_force_calculate_similarity_index(a, b)
+        result = similarity_score(a, b)
         expected = 6  # 1 + 2 + 3 = 6 (all values are common)
         
         assert result == expected, f"Expected {expected}, got {result}"
@@ -104,7 +104,7 @@ class TestSimilarityIndex:
         a = [1, 1, 2, 2]
         b = [1, 2, 2, 3]
         
-        result = brute_force_calculate_similarity_index(a, b)
+        result = similarity_score(a, b)
         expected = 10  # 1*1 + 1*1 + 2*2 + 2*2 = 1 + 1 + 4 + 4 = 10
         
         assert result == expected, f"Expected {expected}, got {result}"
@@ -114,7 +114,7 @@ class TestSimilarityIndex:
         a = []
         b = []
         
-        result = brute_force_calculate_similarity_index(a, b)
+        result = similarity_score(a, b)
         expected = 0  # No common values in empty lists
         
         assert result == expected, f"Expected {expected}, got {result}"
@@ -124,7 +124,7 @@ class TestSimilarityIndex:
         a = [1, 2, 3, 4]
         b = [2, 3]
         
-        result = brute_force_calculate_similarity_index(a, b)
+        result = similarity_score(a, b)
         expected = 5  # 2 + 3 = 5 (common values)
         
         assert result == expected, f"Expected {expected}, got {result}"
@@ -134,7 +134,7 @@ class TestSimilarityIndex:
         a = [3, 4, 2, 1, 3, 3]
         b = [4, 3, 5, 3, 9, 3]
         
-        result = brute_force_calculate_similarity_index(a, b)
+        result = similarity_score(a, b)
         expected = 31  # 9 + 4 + 0 + 0 + 9 + 9 = 31
         
         assert result == expected, f"Expected {expected}, got {result}"
