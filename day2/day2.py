@@ -118,8 +118,8 @@ def main():
     safe_count = count_safe_reports(reports)
     safe_count_by_one_report = count_safe_reports_by_one_report(reports)
     
-    logger.success(f"Part 1: {safe_count} out of {len(reports)}")
-    logger.success(f"Part 2: {safe_count_by_one_report} out of {len(reports)}")
+    logger.success(f"Part 1: {safe_count}")
+    logger.success(f"Part 2: {safe_count_by_one_report}")
 
 if __name__ == "__main__":
     main()
