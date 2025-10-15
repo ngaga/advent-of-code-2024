@@ -5,7 +5,7 @@ Advent of Code 2024 - Day 2 Tests
 
 import pytest
 
-from day2.day2 import count_safe_reports, is_safe_report, is_safe_by_one_report, count_safe_reports_by_one_report
+from day2.day2 import count_safe_reports, is_report_safe, is_report_safe_with_dampener, count_safe_reports_with_dampener
 
 class TestDay2Solution:
     """Test cases for Day 2 solution"""
@@ -43,12 +43,12 @@ class TestDay2Solution:
         ]
         
         # Test individual reports
-        assert is_safe_report([7, 6, 4, 2, 1]), "Decreasing sequence should be safe"
-        assert not is_safe_report([1, 2, 7, 8, 9]), "Sequence with gap > 3 should be unsafe"
-        assert not is_safe_report([9, 7, 6, 2, 1]), "Mixed sequence should be unsafe"
-        assert not is_safe_report([1, 3, 2, 4, 5]), "Mixed sequence should be unsafe"
-        assert not is_safe_report([8, 6, 4, 4, 1]), "Mixed sequence should be unsafe"
-        assert is_safe_report([1, 3, 6, 7, 9]), "Increasing sequence should be safe"
+        assert is_report_safe([7, 6, 4, 2, 1]), "Decreasing sequence should be safe"
+        assert not is_report_safe([1, 2, 7, 8, 9]), "Sequence with gap > 3 should be unsafe"
+        assert not is_report_safe([9, 7, 6, 2, 1]), "Mixed sequence should be unsafe"
+        assert not is_report_safe([1, 3, 2, 4, 5]), "Mixed sequence should be unsafe"
+        assert not is_report_safe([8, 6, 4, 4, 1]), "Mixed sequence should be unsafe"
+        assert is_report_safe([1, 3, 6, 7, 9]), "Increasing sequence should be safe"
         
         # Test count_safe_reports function
         safe_count = count_safe_reports(sample_data)
@@ -75,7 +75,7 @@ class TestDay2Solution:
         ]
         
         for report, expected, description in test_cases:
-            result = is_safe_by_one_report(report)
+            result = is_report_safe_with_dampener(report)
             assert result == expected, f"Report {report}: {description}. Expected {expected}, got {result}"
             print(f"✓ {description}: {report} -> {result}")
     
@@ -92,7 +92,7 @@ class TestDay2Solution:
         ]
         
         # Test count_safe_reports_by_one_report function
-        safe_count = count_safe_reports_by_one_report(sample_data)
+        safe_count = count_safe_reports_with_dampener(sample_data)
         expected_safe = 4  # 4 reports are actually safe with Problem Dampener
         
         assert safe_count == expected_safe, f"Expected {expected_safe} safe reports with Problem Dampener, got {safe_count}"
@@ -105,17 +105,17 @@ class TestDay2Solution:
     def test_problem_dampener_edge_cases(self):
         """Test edge cases for Problem Dampener"""
         # Test with very short reports
-        assert is_safe_by_one_report([1]), "Single value should be safe"
-        assert is_safe_by_one_report([1, 2]), "Two values should be safe"
-        assert is_safe_by_one_report([2, 1]), "Two values should be safe"
+        assert is_report_safe_with_dampener([1]), "Single value should be safe"
+        assert is_report_safe_with_dampener([1, 2]), "Two values should be safe"
+        assert is_report_safe_with_dampener([2, 1]), "Two values should be safe"
         
         # Test with reports that need exactly one removal
-        assert is_safe_by_one_report([1, 5, 2, 3]), "Should be safe by removing 5"
-        assert is_safe_by_one_report([1, 2, 5, 3, 4]), "Should be safe by removing 5"
+        assert is_report_safe_with_dampener([1, 5, 2, 3]), "Should be safe by removing 5"
+        assert is_report_safe_with_dampener([1, 2, 5, 3, 4]), "Should be safe by removing 5"
         
         # Test with reports that are still unsafe even with one removal
-        assert not is_safe_by_one_report([1, 5, 2, 6]), "Should be unsafe even with one removal"
-        assert not is_safe_by_one_report([1, 2, 3, 1, 2, 3]), "Should be unsafe even with one removal"
+        assert not is_report_safe_with_dampener([1, 5, 2, 6]), "Should be unsafe even with one removal"
+        assert not is_report_safe_with_dampener([1, 2, 3, 1, 2, 3]), "Should be unsafe even with one removal"
         
         print("✓ Problem Dampener edge cases test passed")
 

@@ -43,7 +43,7 @@ def get_advent_of_code_data():
         logger.error(f"Error fetching data: {response.status_code}")
         return None
 
-def is_safe_report(report):
+def is_report_safe(report):
     """Check if a report is safe according to the rules:
     - All levels are either increasing or decreasing
     - Any two adjacent levels differ by at least 1 and at most 3
@@ -66,7 +66,7 @@ def is_safe_report(report):
     
     return True
 
-def is_safe_by_one_report(report):
+def is_report_safe_with_dampener(report):
     """Check if a report is safe according to the rules with Problem Dampener:
     - Try removing each element and see if any resulting report is safe
     - If the original report is already safe, return True
@@ -76,14 +76,14 @@ def is_safe_by_one_report(report):
         return True
     
     # Check if the original report is already safe
-    if is_safe_report(report):
+    if is_report_safe(report):
         return True
     
     # Try removing each element and check if the resulting report is safe
     for i in range(len(report)):
         # Create a new report without the element at index i
         modified_report = report[:i] + report[i+1:]
-        if is_safe_report(modified_report):
+        if is_report_safe(modified_report):
             return True
     
     return False
@@ -94,30 +94,28 @@ def count_safe_reports(reports):
     # 2. Any two adjacent levels differ by at least 1 and at most 3
     safe_count = 0
     for report in reports:
-        if is_safe_report(report):
+        if is_report_safe(report):
             safe_count += 1
     return safe_count
 
-def count_safe_reports_by_one_report(reports):
+def count_safe_reports_with_dampener(reports):
     safe_count = 0
     for report in reports:
-        if is_safe_by_one_report(report):
+        if is_report_safe_with_dampener(report):
             safe_count += 1
     return safe_count
 
 def main():
-    
     # Get data from Advent of Code
     reports = get_advent_of_code_data()
     
     if reports is None:
         logger.error("Error: Failed to fetch data from Advent of Code")
-        return
-    
+        return  
     
     # Count safe reports
     safe_count = count_safe_reports(reports)
-    safe_count_by_one_report = count_safe_reports_by_one_report(reports)
+    safe_count_by_one_report = count_safe_reports_with_dampener(reports)
     
     logger.success(f"Part 1: {safe_count}")
     logger.success(f"Part 2: {safe_count_by_one_report}")
