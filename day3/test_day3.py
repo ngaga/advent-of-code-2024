@@ -10,7 +10,7 @@ import os
 # Add the day3 directory to the path so we can import the module
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
-from solution import get_advent_of_code_data, find_valid_mul_instructions, calculate_multiplication_sum, extract_do_instructions
+from day3 import get_advent_of_code_data, find_valid_mul_instructions, calculate_multiplication_sum, extract_do_instructions
 
 class TestDay3Solution:
     """Test cases for Day 3 solution"""

@@ -10,7 +10,7 @@ import os
 # Add the day4 directory to the path so we can import the module
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
-from solution import get_advent_of_code_data, find_xmas_occurrences, count_xmas_in_grid, find_x_mas_patterns, count_x_mas_in_grid
+from day4 import get_advent_of_code_data, find_xmas_occurrences, count_xmas_in_grid, find_x_mas_patterns, count_x_mas_in_grid
 
 class TestDay4Solution:
     """Test cases for Day 4 solution"""
