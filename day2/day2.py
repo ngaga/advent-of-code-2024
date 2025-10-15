@@ -18,7 +18,8 @@ def get_advent_of_code_data():
     # Get session from environment variable
     my_session = os.getenv('ADVENT_OF_CODE_SESSION')
     if not my_session:
-        raise ValueError("ADVENT_OF_CODE_SESSION environment variable not set. Please check your .env file.")
+        logger.error("ADVENT_OF_CODE_SESSION environment variable not set. Please create or modify the .env as explained in the README.md. Skipping solution execution for now.")
+        return None
     cookies = {'session': my_session}
     
     logger.debug("Fetching data from Advent of Code...")

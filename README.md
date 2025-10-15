@@ -13,6 +13,36 @@ My solutions for Advent of Code 2024.
 
 ### Create .env
 
+Create a `.env` file in the project root with your Advent of Code session token:
+
+```bash
+echo "ADVENT_OF_CODE_SESSION=your_session_token_here" > .env
+```
+
+To get your session token:
+1. Go to [Advent of Code](https://adventofcode.com/)
+2. Log in to your account
+3. Open browser developer tools (F12)
+4. Go to Application/Storage tab → Cookies
+5. Copy the value of the `session` cookie
+6. Replace `your_session_token_here` with your actual token
+
+Example:
+```
+ADVENT_OF_CODE_SESSION=53616c7465645f5ff2d**************************************************************f0849ef76b03
+```
+
+Your `.env` file should look exactly like this (with your actual token):
+```
+ADVENT_OF_CODE_SESSION=your_actual_token_here
+```
+
+**Important:** 
+- No spaces around the `=`
+- No quotes around the token
+- One line only
+- The file should be named exactly `.env` (with the dot at the beginning and nothing after)
+
 
 
 #### 
