@@ -34,14 +34,9 @@ To get your session token:
 5. Copy the value of the `session` cookie
 6. Replace `your_session_token_here` with your actual token
 
-Example:
+Example of `.env`:
 ```
 ADVENT_OF_CODE_SESSION=53616c7465645f5ff2d**************************************************************f0849ef76b03
-```
-
-Your `.env` file should look exactly like this (with your actual token):
-```
-ADVENT_OF_CODE_SESSION=your_actual_token_here
 ```
 
 **Important:** 
