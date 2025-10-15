@@ -134,8 +134,6 @@ def extract_do_instructions(corrupted_memory):
 
 
 def main():
-    logger.info("Advent of Code 2024 - Day 3 Solution")
-    logger.info("=" * 40)
     
     # Get data from Advent of Code
     corrupted_memory = get_advent_of_code_data()
@@ -148,18 +146,12 @@ def main():
     
     # Part 1: Calculate the sum of all valid mul instructions
     valid_instructions = find_valid_mul_instructions(corrupted_memory)
-    logger.debug(f"Part 1 - Found {len(valid_instructions)} valid mul instructions")
-    logger.debug(f"Valid instructions: {valid_instructions}")
     total_sum = calculate_multiplication_sum(valid_instructions)
     logger.success(f"Part 1: {total_sum}")
     
     # Part 2: Calculate the sum considering do() and dont() state
-    logger.info("\n" + "=" * 40)
-    logger.info("Part 2 - With do() and dont() state management")
-    logger.info("=" * 40)
     
     do_instructions = extract_do_instructions(corrupted_memory)
-    logger.debug(f"Part 2 - Do instructions: {do_instructions}")
     total_sum_part2 = calculate_multiplication_sum(find_valid_mul_instructions(do_instructions))
     logger.success(f"Part 2: {total_sum_part2}")
 

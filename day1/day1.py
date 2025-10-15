@@ -66,8 +66,6 @@ def distanceSumOfSortedElements(list_a, list_b):
 
 
 def main():
-    logger.info("Advent of Code 2024 - Day 1 Solution")
-    logger.info("=" * 40)
     
     # Get data from Advent of Code
     matrix = get_advent_of_code_data()
@@ -83,7 +81,6 @@ def main():
         sorted_distance = distanceSumOfSortedElements(col_a.tolist(), col_b.tolist())
         similarity_index = brute_force_calculate_similarity_index(col_a.tolist(), col_b.tolist())
         
-        logger.info(f"Day 1:")
         logger.success(f"Part 1: {sorted_distance}")
         logger.success(f"Part 2: {similarity_index}")
 

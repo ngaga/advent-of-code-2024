@@ -19,12 +19,12 @@ def setup_logger():
         # Set specific log level
         log_level = os.getenv("LOG_LEVEL").upper()
         logger.add(lambda msg: print(msg, end=""), 
-                   format="<green>{time:HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{message}</cyan>",
+                   format="{message}",
                    level=log_level)
     else:
-        # Default configuration with colors and timestamps
+        # Default configuration - simple format without timestamp and level
         logger.add(lambda msg: print(msg, end=""), 
-                   format="<green>{time:HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{message}</cyan>",
+                   format="{message}",
                    level="INFO")
 
 def get_logger():

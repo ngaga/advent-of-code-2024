@@ -108,8 +108,6 @@ def count_safe_reports_by_one_report(reports):
     return safe_count
 
 def main():
-    logger.info("Advent of Code 2024 - Day 2 Solution")
-    logger.info("=" * 40)
     
     # Get data from Advent of Code
     reports = get_advent_of_code_data()
@@ -118,7 +116,6 @@ def main():
         logger.error("Error: Failed to fetch data from Advent of Code")
         return
     
-    logger.info(f"Loaded {len(reports)} reports")
     
     # Count safe reports
     safe_count = count_safe_reports(reports)

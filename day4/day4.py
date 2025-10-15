@@ -168,8 +168,6 @@ def count_x_mas_in_grid(grid):
     return len(occurrences)
 
 def main():
-    logger.info("Advent of Code 2024 - Day 4 Solution")
-    logger.info("=" * 40)
     
     # Get data from Advent of Code
     grid = get_advent_of_code_data()
